@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>SkyCast — Atmospheric Intelligence & Weather Observatory</title>
+  <meta name="description" content="State-of-the-art Atmospheric Intelligence & Multi-Sensor Weather Observatory featuring real-time Doppler radar telemetry, GPS synchronization, and micro-climate forecasting."/>
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <!-- Leaflet CSS for Interactive Radar & Geographic Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- Tailwind CSS v3 -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#38bdf8",
+            "on-tertiary-fixed": "#2a1700",
+            "surface": "#0b1326",
+            "tertiary": "#ffc174",
+            "primary-fixed-dim": "#7bd0ff",
+            "surface-bright": "#31394d",
+            "outline-variant": "#3e484f",
+            "surface-dim": "#0b1326",
+            "outline": "#87929a",
+            "surface-tint": "#7bd0ff",
+            "surface-container-low": "#131b2e",
+            "on-secondary-fixed-variant": "#2f3aa3",
+            "error-container": "#93000a",
+            "surface-container-highest": "#2d3449",
+            "on-secondary-container": "#a8afff",
+            "on-primary": "#00354a",
+            "on-tertiary": "#472a00",
+            "background": "#0b1326",
+            "on-primary-container": "#004965",
+            "on-tertiary-container": "#613b00",
+            "surface-container-lowest": "#060e20",
+            "tertiary-fixed-dim": "#ffb95f",
+            "tertiary-container": "#f59e0b",
+            "surface-container-high": "#222a3d",
+            "inverse-on-surface": "#283044",
+            "surface-variant": "#2d3449",
+            "primary-fixed": "#c4e7ff",
+            "on-secondary-fixed": "#000767",
+            "error": "#ffb4ab",
+            "on-secondary": "#131e8c",
+            "on-primary-fixed": "#001e2c",
+            "primary": "#8ed5ff",
+            "secondary": "#bdc2ff",
+            "on-primary-fixed-variant": "#004c69",
+            "surface-container": "#171f33",
+            "inverse-primary": "#00668a",
+            "secondary-fixed": "#e0e0ff",
+            "on-surface-variant": "#bdc8d1",
+            "on-background": "#dae2fd",
+            "secondary-fixed-dim": "#bdc2ff",
+            "on-tertiary-fixed-variant": "#653e00",
+            "tertiary-fixed": "#ffddb8",
+            "secondary-container": "#2f3aa3",
+            "on-error-container": "#ffdad6",
+            "inverse-surface": "#dae2fd",
+            "on-error": "#690005",
+            "on-surface": "#dae2fd"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-md": "1.25rem",
+            "margin-lg": "3rem",
+            "space-lg": "1.5rem",
+            "margin": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "gutter-lg": "1.5rem",
+            "space-md": "1rem",
+            "margin-md": "2rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Outfit"],
+            "body-sm": ["Inter"],
+            "headline-md": ["Outfit"],
+            "display-hero-mobile": ["Outfit"],
+            "label-uppercase": ["Outfit"],
+            "stat-value": ["Outfit"],
+            "label-badge": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-lg": ["Outfit"],
+            "headline-xl-mobile": ["Outfit"],
+            "display-hero": ["Outfit"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "display-hero-mobile": ["56px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "300" }],
+            "label-uppercase": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+            "stat-value": ["28px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-badge": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "display-hero": ["88px", { "lineHeight": "92px", "letterSpacing": "-0.03em", "fontWeight": "300" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen relative overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+
+  <!-- ================= IMMERSIVE ATMOSPHERIC PRELOADER SPLASH SCREEN ================= -->
+  <div class="fixed inset-0 z-[9999] flex flex-col justify-between items-center p-6 md:p-10 select-none overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] bg-gradient-to-b from-[#060e20] via-[#091124] to-[#0b1326]" id="skycast-preloader">
+    <!-- Background Atmospheric Rings & Radar Sweep -->
+    <div class="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
+      <div class="absolute w-[680px] h-[680px] rounded-full border border-primary-container/10 preloader-ring-anim"></div>
+      <div class="absolute w-[460px] h-[460px] rounded-full border border-primary-container/15 preloader-ring-anim" style="animation-delay: 1s;"></div>
+      <div class="absolute w-[260px] h-[260px] rounded-full border border-primary-container/20 preloader-ring-anim" style="animation-delay: 2s;"></div>
+      
+      <!-- Rotating Sweep Beam -->
+      <div class="absolute w-[500px] h-[500px] radar-beam pointer-events-none opacity-25">
+        <div class="w-1/2 h-1/2 bg-gradient-to-br from-primary-container to-transparent rounded-tl-full origin-bottom-right"></div>
+      </div>
+      
+      <!-- Subtle Background Ambient Glows -->
+      <div class="absolute w-[500px] h-[500px] bg-primary-container/10 rounded-full blur-[140px]"></div>
+      <div class="absolute bottom-10 left-10 w-96 h-96 bg-secondary-container/20 rounded-full blur-[150px]"></div>
+    </div>
+
+    <!-- Top Preloader Header Bar -->
+    <div class="w-full max-w-5xl flex items-center justify-between relative z-10">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-label-uppercase tracking-wider uppercase bg-white/5 border border-white/10 text-outline">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Observatory Telemetry Initializer
+        </span>
+      </div>
+      
+      <!-- Quick Skip Action -->
+      <button class="px-3.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 border border-white/10 text-xs font-medium text-on-surface-variant hover:text-white transition-all flex items-center gap-1.5 backdrop-blur-md" id="preloader-skip-btn">
+        <span>Skip Sequence</span>
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </button>
+    </div>
+
+    <!-- Central Emblem & Telemetry Progression -->
+    <div class="flex flex-col items-center justify-center text-center relative z-10 max-w-lg w-full my-auto py-8">
+      <!-- Glowing Meteorological Crest -->
+      <div class="relative mb-6">
+        <div class="absolute -inset-4 bg-primary-container/20 rounded-3xl blur-xl animate-pulse"></div>
+        <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-b from-surface-container-high to-surface-container-lowest border border-primary-container/40 flex items-center justify-center shadow-2xl shadow-primary-container/20">
+          <span class="material-symbols-outlined text-primary-container text-[42px] sm:text-[48px]">cloud</span>
+          <span class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-tertiary-container animate-ping"></span>
+          <span class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-tertiary-container border-2 border-[#060e20]"></span>
+        </div>
+      </div>
+
+      <!-- Title & Subtitle -->
+      <h1 class="text-3xl sm:text-4xl font-headline-xl font-bold tracking-tight text-white flex items-center justify-center gap-2">
+        SkyCast
+        <span class="text-xs tracking-widest text-primary-container uppercase font-label-uppercase px-2 py-0.5 rounded-full bg-primary-container/15 border border-primary-container/30">Intelligence</span>
+      </h1>
+      <p class="text-sm font-body-md text-outline mt-1.5 max-w-sm">
+        Atmospheric Intelligence & Multi-Sensor Weather Observatory
+      </p>
+
+      <!-- Progress Gauge & Status Text -->
+      <div class="w-full max-w-xs sm:max-w-sm mt-8 space-y-2.5">
+        <div class="flex items-center justify-between text-xs font-mono">
+          <span class="text-primary-container truncate flex items-center gap-1.5" id="preloader-status-log">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-ping"></span>
+            Calibrating Doppler Radar Sensors...
+          </span>
+          <span class="text-white font-bold ml-2" id="preloader-percent">0%</span>
+        </div>
+        
+        <!-- Sleek Neon Cyan Progress Bar -->
+        <div class="h-2 w-full rounded-full bg-white/10 p-[1px] overflow-hidden border border-white/15 backdrop-blur-md">
+          <div class="h-full rounded-full bg-gradient-to-r from-primary via-primary-container to-emerald-400 transition-all duration-150 ease-out shadow-[0_0_12px_rgba(56,189,248,0.7)]" id="preloader-progress-fill" style="width: 0%;"></div>
+        </div>
+
+        <div class="flex items-center justify-between text-[10px] text-outline font-mono">
+          <span>STATION ID: OBS-LON-51</span>
+          <span>LAT: 51.5074° N · LON: 0.1278° W</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Developer Attribution Badge -->
+    <div class="w-full max-w-md flex flex-col items-center relative z-10">
+      <div class="glass-panel-elevated px-4 py-2 rounded-xl flex items-center gap-2.5 border border-white/15 text-xs shadow-lg shadow-black/40 group hover:border-primary-container/50 transition-all">
+        <div class="w-6 h-6 rounded-lg bg-primary-container/15 border border-primary-container/40 flex items-center justify-center text-primary-container">
+          <span class="material-symbols-outlined text-[15px]">terminal</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-outline text-[11px] font-body-sm">Crafted by</span>
+          <span class="text-white font-semibold font-headline-md tracking-wide text-xs group-hover:text-primary-container transition-colors">SherryDevStudio</span>
+        </div>
+        <span class="h-3 w-px bg-white/20 mx-0.5"></span>
+        <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/10 text-outline">v2.4.0-PROD</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ambient Dynamic Sky Canvas Container -->
+  <div class="fixed inset-0 weather-clear-day transition-all duration-1000 -z-20" id="ambient-backdrop"></div>
+  <canvas class="fixed inset-0 pointer-events-none -z-10 w-full h-full" id="weather-canvas"></canvas>
+  <div class="fixed inset-0 bg-white/20 lightning-effect hidden -z-15" id="lightning-overlay"></div>
+
+  <!-- Ambient Radial Glow Nodes -->
+  <div class="fixed top-12 left-1/4 w-96 h-96 bg-primary-container/15 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+  <div class="fixed bottom-24 right-1/4 w-[32rem] h-[32rem] bg-secondary-container/20 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+
+  <!-- TOP NAV BAR -->
+  <header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-sm border-b border-outline-variant/30 dark:border-outline-variant/20">
+    <div class="flex justify-between items-center w-full px-2.5 sm:px-space-lg py-2 sm:py-space-sm max-w-7xl mx-auto">
+      
+      <!-- Brand Logo Anchor -->
+      <div class="flex items-center gap-2 sm:gap-space-lg shrink-0">
+        <a class="text-base sm:text-headline-md font-headline-md font-bold tracking-tight text-primary dark:text-primary-container flex items-center gap-1.5 sm:gap-2 transition-all duration-200 active:scale-95 shrink-0" href="#">
+          <span class="relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-primary-container/20 border border-primary-container/40 text-primary-container shrink-0">
+            <span class="material-symbols-outlined text-[17px] sm:text-[20px]" data-icon="cloud">cloud</span>
+            <span class="absolute -top-1 -right-1 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-tertiary-container rounded-full animate-ping"></span>
+            <span class="absolute -top-1 -right-1 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-tertiary-container rounded-full"></span>
+          </span>
+          <span>SkyCast</span>
+        </a>
+
+        <!-- Desktop Search Bar with Combobox -->
+        <div class="relative hidden sm:block w-64 md:w-80">
+          <div class="relative flex items-center">
+            <span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none" data-icon="search">search</span>
+            <input autocomplete="off" class="w-full pl-9 pr-8 py-1.5 text-body-md font-body-md bg-white/5 border border-white/10 rounded-full text-on-surface placeholder-outline focus:outline-none focus:ring-2 focus:ring-primary-container/50 focus:border-primary-container transition-all" id="city-search-input" placeholder="Search global stations..." type="text"/>
+            <button class="absolute right-2.5 text-outline hover:text-on-surface hidden transition-colors" id="clear-search-btn">
+              <span class="material-symbols-outlined text-[16px]" data-icon="close">close</span>
+            </button>
+          </div>
+
+          <!-- Dropdown Combobox Menu -->
+          <div class="absolute left-0 right-0 top-full mt-2 glass-panel-elevated rounded-xl p-2 hidden shadow-2xl z-50 border border-white/15" id="search-combobox">
+            <div class="text-[10px] uppercase font-label-uppercase text-outline px-2 py-1 flex items-center justify-between">
+              <span>Telemetry Observatories</span>
+              <span class="text-[9px] text-primary">Live Feeds</span>
+            </div>
+            <div class="space-y-0.5 mt-1 max-h-60 overflow-y-auto no-scrollbar" id="cities-list">
+              <!-- Populated by JS -->
+            </div>
+            <div class="border-t border-white/10 mt-2 pt-2 flex items-center justify-between px-2">
+              <button class="flex items-center gap-1.5 text-body-sm font-body-sm text-primary-container hover:underline group cursor-pointer" id="gps-locator-btn">
+                <span class="material-symbols-outlined text-[16px] group-hover:rotate-45 transition-transform" data-icon="my_location">my_location</span>
+                <span>Use Current GPS Coordinates</span>
+              </button>
+              <span class="text-[10px] text-outline">ESC to dismiss</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links (Desktop) -->
+      <nav class="hidden md:flex items-center space-x-6">
+        <a class="text-primary dark:text-primary-container font-medium border-b-2 border-primary dark:border-primary-container pb-1 text-body-md transition-all cursor-pointer" href="#dashboard">Dashboard</a>
+        <a class="text-on-surface-variant hover:text-on-surface transition-colors pb-1 text-body-md cursor-pointer" href="#radar">Radar</a>
+        <a class="text-on-surface-variant hover:text-on-surface transition-colors pb-1 text-body-md cursor-pointer" href="#maps">Maps</a>
+        <a class="text-on-surface-variant hover:text-on-surface transition-colors pb-1 text-body-md cursor-pointer" href="#historical">Historical</a>
+      </nav>
+
+      <!-- Trailing Action Icons & Primary Sign In (Mobile Fluid) -->
+      <div class="flex items-center gap-1 sm:gap-2">
+        <!-- Mobile Search Toggle Button (visible only on mobile) -->
+        <button class="sm:hidden p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-colors duration-150 rounded-lg active:scale-95 cursor-pointer" id="mobile-search-toggle-btn" title="Search stations">
+          <span class="material-symbols-outlined text-[18px]">search</span>
+        </button>
+
+        <!-- Quick Unit Switcher (°C / °F) -->
+        <button class="px-2 py-1 text-[11px] font-label-uppercase font-semibold bg-surface-container-high/60 border border-outline-variant/40 rounded-lg text-primary hover:bg-surface-container-highest transition-all duration-150 active:scale-95 flex items-center gap-0.5 cursor-pointer shrink-0" id="unit-toggle-btn" title="Toggle °C / °F">
+          <span class="font-bold" id="unit-display">°C</span>
+          <span class="text-outline text-[9px]">|°F</span>
+        </button>
+
+        <!-- Trailing Actions: GPS Recenter, Thermostat/Wind, Dark/Light Mode, Notifications -->
+        <button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-colors duration-150 rounded-lg active:scale-95 cursor-pointer" id="action-location" title="Sync Live GPS Weather & Map">
+          <span class="material-symbols-outlined text-[18px] sm:text-[20px]" data-icon="my_location">my_location</span>
+        </button>
+        
+        <button class="hidden sm:inline-flex p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-colors duration-150 rounded-lg active:scale-95 cursor-pointer" id="action-wind-unit" title="Toggle Wind Units (km/h vs mph)">
+          <span class="material-symbols-outlined text-[18px] sm:text-[20px]" data-icon="thermostat">thermostat</span>
+        </button>
+        
+        <button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-colors duration-150 rounded-lg active:scale-95 cursor-pointer" id="action-theme-mode" title="Toggle Light / Dark Mode">
+          <span class="material-symbols-outlined text-[18px] sm:text-[20px]" id="theme-mode-icon" data-icon="dark_mode">dark_mode</span>
+        </button>
+        
+        <div class="relative">
+          <button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-colors duration-150 rounded-lg active:scale-95 cursor-pointer" id="action-notifications" title="Observatory Severe Bulletins">
+            <span class="material-symbols-outlined text-[18px] sm:text-[20px]" data-icon="notifications">notifications</span>
+          </button>
+          <span class="absolute top-1 right-1 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary-container"></span>
+        </div>
+
+        <!-- Trailing Primary Action: Sign In (compact on mobile, shrink-0 prevents line breaks) -->
+        <button class="ml-0.5 sm:ml-2 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-lg bg-primary-container text-on-primary-container font-headline-md text-xs sm:text-body-md font-semibold hover:bg-primary-fixed-dim transition-all duration-150 active:scale-95 shadow-md shadow-primary-container/20 cursor-pointer whitespace-nowrap shrink-0" id="sign-in-btn">
+          <span>Sign In</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Search Expandable Bar -->
+    <div class="sm:hidden px-3 pb-2.5 pt-1 border-t border-outline-variant/20 hidden transition-all" id="mobile-search-bar">
+      <div class="relative flex items-center">
+        <span class="material-symbols-outlined absolute left-3 text-outline text-[18px] pointer-events-none">search</span>
+        <input autocomplete="off" class="w-full pl-9 pr-8 py-1.5 text-xs bg-white/5 border border-white/10 rounded-full text-on-surface placeholder-outline focus:outline-none focus:ring-2 focus:ring-primary-container/50" id="mobile-city-search-input" placeholder="Search cities (e.g. Lahore, Tokyo)..." type="text"/>
+        <button class="absolute right-2.5 text-outline hover:text-on-surface" onclick="document.getElementById('mobile-search-bar').classList.add('hidden')">
+          <span class="material-symbols-outlined text-[15px]">close</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pinned Favorites Quick-Bar -->
+  <div class="max-w-7xl mx-auto px-3 sm:px-space-lg pt-2 pb-0 flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar hidden" id="pinned-favorites-bar">
+    <!-- Populated by JS -->
+  </div>
+
+  <!-- Interactive Weather Condition Simulator & Telemetry Status Sub-Bar -->
+  <section class="border-b border-outline-variant/20 bg-surface-container-lowest/60 backdrop-blur-md sticky top-[53px] sm:top-[57px] z-40">
+    <div class="max-w-7xl mx-auto px-3 sm:px-space-lg py-2 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 text-body-sm">
+      
+      <!-- Condition Simulator Pills (smooth horizontal touch scrolling on mobile) -->
+      <div class="flex items-center gap-1.5 overflow-x-auto py-0.5 no-scrollbar flex-nowrap">
+        <span class="text-[10px] sm:text-[11px] font-label-uppercase uppercase text-outline flex items-center gap-1 mr-1 flex-shrink-0">
+          <span class="material-symbols-outlined text-[13px]" data-icon="science">science</span>
+          Atmosphere:
+        </span>
+        <button class="condition-sim-btn flex-shrink-0 active px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium border border-primary-container/50 bg-primary-container/20 text-primary-container transition-all cursor-pointer whitespace-nowrap" data-condition="clear-day">
+          ☀️ Clear Day
+        </button>
+        <button class="condition-sim-btn flex-shrink-0 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium border border-white/10 bg-white/5 text-on-surface-variant hover:text-on-surface hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap" data-condition="storm">
+          ⚡ Thunderstorm
+        </button>
+        <button class="condition-sim-btn flex-shrink-0 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium border border-white/10 bg-white/5 text-on-surface-variant hover:text-on-surface hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap" data-condition="rain">
+          🌧️ Torrential Rain
+        </button>
+        <button class="condition-sim-btn flex-shrink-0 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium border border-white/10 bg-white/5 text-on-surface-variant hover:text-on-surface hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap" data-condition="night">
+          🌌 Starry Night
+        </button>
+        <button class="condition-sim-btn flex-shrink-0 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium border border-white/10 bg-white/5 text-on-surface-variant hover:text-on-surface hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap" data-condition="snow">
+          ❄️ Glacial Snow
+        </button>
+      </div>
+
+      <!-- Live Synced Indicator & GPS Action -->
+      <div class="flex items-center justify-between md:justify-end gap-2 text-[11px] sm:text-xs text-outline font-body-sm flex-wrap">
+        <div class="flex items-center gap-1.5">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span class="text-on-surface font-medium truncate max-w-[140px] sm:max-w-none">Open-Meteo Synced</span>
+          <span class="text-outline hidden xs:inline">· <span id="sync-time">Just now</span></span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-1 pl-2 border-l border-white/10">
+            <span class="material-symbols-outlined text-[13px] text-primary" data-icon="satellite_alt">satellite_alt</span>
+            <span class="text-on-surface font-mono text-[10px]" id="station-id">OBS-LON-51</span>
+          </div>
+
+          <button class="px-2 py-0.5 rounded bg-primary-container/15 hover:bg-primary-container/25 text-primary text-[10px] sm:text-[11px] font-medium border border-primary-container/30 transition-all active:scale-95 flex items-center gap-1 cursor-pointer flex-shrink-0" id="quick-gps-pill" onclick="locateCurrentGPS()">
+            <span class="material-symbols-outlined text-[12px]">my_location</span>
+            <span>GPS Fix</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN OBSERVATORY DASHBOARD CANVAS -->
+  <main class="max-w-7xl mx-auto px-3 sm:px-space-lg py-4 sm:py-space-lg pb-24 md:pb-8" id="dashboard">
+    <!-- DESKTOP BENTO GRID: 12 Columns -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-lg items-start">
+      
+      <!-- ================= LEFT COLUMN: HERO OBSERVATION (5 Cols) ================= -->
+      <section class="lg:col-span-5 space-y-gutter-md">
+        
+        <!-- Hero Primary Glass Card -->
+        <div class="glass-panel rounded-2xl p-6 sm:p-8 overflow-hidden relative group">
+          <!-- Ambient Accent Glow -->
+          <div class="absolute -right-12 -top-12 w-52 h-52 bg-primary-container/20 rounded-full blur-3xl pointer-events-none transition-all duration-700" id="hero-glow"></div>
+          
+          <!-- Location & Synchronized Time Header -->
+          <div class="flex items-start justify-between relative z-10">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xl" id="country-flag">🇬🇧</span>
+                <h1 class="text-headline-xl font-headline-xl text-on-surface font-bold tracking-tight" id="city-title">London</h1>
+                <span class="material-symbols-outlined text-primary-container text-[20px]" data-icon="verified" title="Calibrated Station">verified</span>
+              </div>
+              <p class="text-body-sm font-body-sm text-outline flex items-center gap-1.5" id="local-time">
+                <span class="material-symbols-outlined text-[15px]" data-icon="schedule">schedule</span>
+                Thursday, October 24 · 14:32 Local Time (GMT+1)
+              </p>
+            </div>
+            
+            <!-- Quick Favorite / Pin Action -->
+            <button class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-outline hover:text-tertiary-container hover:bg-white/10 transition-colors group cursor-pointer" id="pin-city-btn" title="Pin City to Favorites">
+              <span class="material-symbols-outlined text-[18px]" data-icon="bookmark">bookmark</span>
+            </button>
+          </div>
+
+          <!-- Weather Hero Visual Representation -->
+          <div class="my-6 flex items-center justify-between relative z-10">
+            <div>
+              <!-- Hero Large Temperature Display -->
+              <div class="flex items-baseline">
+                <span class="text-display-hero font-display-hero font-light tracking-tighter text-on-surface" id="hero-temp">19</span>
+                <span class="text-4xl font-headline-md font-light text-primary-container ml-1" id="hero-unit">°C</span>
+              </div>
+              
+              <div class="flex items-center gap-3 mt-1">
+                <span class="inline-flex items-center gap-1 text-body-sm font-medium text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                  <span class="material-symbols-outlined text-[14px]" data-icon="north">north</span>
+                  <span id="temp-high">22°</span>
+                </span>
+                <span class="inline-flex items-center gap-1 text-body-sm font-medium text-sky-300 bg-sky-500/10 px-2 py-0.5 rounded-full border border-sky-500/20">
+                  <span class="material-symbols-outlined text-[14px]" data-icon="south">south</span>
+                  <span id="temp-low">13°</span>
+                </span>
+                <span class="text-body-sm text-outline">Feels like <strong class="text-on-surface font-semibold" id="feels-like-val">18°C</strong></span>
+              </div>
+            </div>
+
+            <!-- Animated Dynamic SVG Weather Hero Icon -->
+            <div class="w-28 h-28 float-anim flex items-center justify-center relative" id="hero-condition-icon">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Condition Description Banner -->
+          <div class="relative z-10 border-t border-white/10 pt-4 flex items-center justify-between">
+            <div class="space-y-0.5">
+              <span class="text-headline-md font-headline-md font-semibold text-primary-container block" id="condition-title">Scattered Cirrus Clouds</span>
+              <p class="text-body-sm font-body-sm text-outline" id="condition-summary">Mild western breeze with stable barometric trends over Thames Estuary.</p>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] font-label-uppercase uppercase text-outline block">Precipitation</span>
+              <span class="text-sm font-semibold text-primary" id="precip-risk">12% Risk</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Severe Weather Advisory Pill / Alert Module -->
+        <div class="glass-panel rounded-xl p-4 border-l-4 border-l-tertiary-container flex items-start gap-3 cursor-pointer hover:bg-white/10 transition-colors" id="alert-banner" onclick="openModal('bulletins-modal')">
+          <span class="material-symbols-outlined text-tertiary-container text-[22px] mt-0.5" data-icon="warning">warning</span>
+          <div class="flex-1 text-body-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-headline-md text-sm font-semibold text-tertiary-container">Special Meteorological Notice</span>
+              <span class="text-[10px] uppercase font-label-uppercase bg-tertiary-container/20 text-tertiary px-2 py-0.5 rounded-full">Advisory</span>
+            </div>
+            <p class="text-outline text-xs mt-1">Slight evening mist forming across low-lying river paths; maritime visibility standard. Click for bulletins.</p>
+          </div>
+        </div>
+
+        <!-- 7-Day Extended Forecast Outlook -->
+        <div class="glass-panel rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-white/10">
+            <h2 class="text-headline-md font-headline-md font-semibold text-on-surface flex items-center gap-2 text-base">
+              <span class="material-symbols-outlined text-primary-container text-[18px]" data-icon="calendar_month">calendar_month</span>
+              7-Day Synoptic Outlook
+            </h2>
+            <span class="text-[11px] font-label-uppercase uppercase text-outline">Calibrated Model</span>
+          </div>
+          <div class="space-y-2" id="forecast-7day-list">
+            <!-- Dynamically populated 7 days -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= RIGHT COLUMN: TELEMETRY & CHARTS (7 Cols) ================= -->
+      <section class="lg:col-span-7 space-y-gutter-md">
+        
+        <!-- Interactive 24-Hour Area Temperature Chart Module -->
+        <div class="glass-panel rounded-2xl p-6 relative">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-headline-md font-headline-md font-semibold text-on-surface flex items-center gap-2 text-lg">
+                <span class="material-symbols-outlined text-primary-container text-[20px]" data-icon="show_chart">show_chart</span>
+                Diurnal Temperature & Precipitation Trajectory
+              </h2>
+              <p class="text-body-sm text-outline">Hourly thermal spline modeled with dew condensation probability</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="flex items-center gap-1.5 text-xs text-primary font-body-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary-container inline-block"></span>
+                Temp Curve
+              </span>
+              <span class="flex items-center gap-1.5 text-xs text-secondary font-body-sm ml-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-secondary-container inline-block"></span>
+                Precip %
+              </span>
+            </div>
+          </div>
+
+          <!-- SVG Spline Chart Container with Hover Hairline Tooltip -->
+          <div class="relative w-full h-44 mt-2" id="chart-wrapper">
+            <svg class="w-full h-full overflow-visible" id="temp-svg-chart" preserveaspectratio="none" viewbox="0 0 700 160">
+              <defs>
+                <lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.38"></stop>
+                  <stop offset="85%" stop-color="#38bdf8" stop-opacity="0.0"></stop>
+                </lineargradient>
+                <lineargradient id="precipGradient" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#818cf8" stop-opacity="0.3"></stop>
+                  <stop offset="100%" stop-color="#818cf8" stop-opacity="0.0"></stop>
+                </lineargradient>
+              </defs>
+              <!-- Grid reference lines -->
+              <line stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4" x1="0" x2="700" y1="40" y2="40"></line>
+              <line stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4" x1="0" x2="700" y1="85" y2="85"></line>
+              <line stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4" x1="0" x2="700" y1="130" y2="130"></line>
+              <!-- Precip area -->
+              <path d="" fill="url(#precipGradient)" id="chart-precip-area"></path>
+              <!-- Temperature Area & Spline Line -->
+              <path d="" fill="url(#chartGradient)" id="chart-temp-area"></path>
+              <path d="" fill="none" id="chart-temp-line" stroke="#38bdf8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+              <!-- Interactive Cursor Elements -->
+              <line id="chart-cursor-line" opacity="0" stroke="#7bd0ff" stroke-dasharray="3 3" stroke-width="1.5" x1="-100" x2="-100" y1="0" y2="150"></line>
+              <circle cx="-100" cy="-100" fill="#38bdf8" id="chart-cursor-dot" opacity="0" r="5" stroke="#ffffff" stroke-width="2"></circle>
+            </svg>
+            
+            <!-- Floating Glass Tooltip -->
+            <div class="absolute -top-3 left-0 glass-panel-elevated pointer-events-none rounded-lg px-2.5 py-1 text-xs opacity-0 transition-opacity duration-150 transform -translate-x-1/2" id="chart-tooltip">
+              <span class="text-outline font-mono block text-[10px]" id="tooltip-time">14:00</span>
+              <div class="flex items-center gap-2">
+                <span class="text-primary-container font-bold text-sm" id="tooltip-temp">21°C</span>
+                <span class="text-secondary text-[11px]" id="tooltip-precip">10% Rain</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hourly Forecast Horizontal Carousel Strip -->
+          <div class="mt-4 pt-4 border-t border-white/10">
+            <div class="text-[11px] font-label-uppercase uppercase text-outline mb-2 flex items-center justify-between">
+              <span>24-Hour Timeline</span>
+              <span>Click or scroll for details →</span>
+            </div>
+            <div class="flex gap-2 overflow-x-auto pb-2 scroll-smooth no-scrollbar" id="hourly-scroll-container">
+              <!-- Dynamically populated hourly cards -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 8-Card Meteorological Telemetry Stat Grid (2 Rows of 4 on Desktop) -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-headline-md font-headline-md font-semibold text-on-surface text-base flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary-container text-[18px]" data-icon="grid_view">grid_view</span>
+              Atmospheric Stat Deck (8-Sensor Array)
+            </h2>
+            <span class="text-[11px] font-label-uppercase uppercase text-outline">Real-time Telemetry</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <!-- Card 1: Wind & Direction -->
+            <div class="glass-panel rounded-xl p-4 flex flex-col justify-between hover:border-white/20 transition-all group">
+              <div class="flex items-center justify-between text-outline">
+                <span class="text-[11px] font-label-uppercase uppercase">Wind Status</span>
+                <span class="material-symbols-outlined text-[16px] text-primary" data-icon="air">air</span>
+              </div>
+              <div class="my-2 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center relative shadow-inner">
+                  <div class="transition-transform duration-700 ease-out" id="compass-needle">
+                    <span class="material-symbols-outlined text-primary-container text-[20px]" data-icon="navigation">navigation</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex items-baseline">
+                    <span class="text-stat-value font-stat-value text-on-surface" id="stat-wind-val">18</span>
+                    <span class="text-xs text-outline ml-1" id="stat-wind-unit">km/h</span>
+                  </div>
+                  <span class="text-[11px] text-primary font-mono" id="stat-wind-dir">NW (315°)</span>
+                </div>
+              </div>
+              <div class="text-[11px] text-outline flex items-center justify-between pt-1 border-t border-white/5">
+                <span>Gusts</span>
+                <span class="text-on-surface font-medium" id="stat-wind-gusts">26 km/h</span>
+              </div>
+            </div>
+
+            <!-- Card 2: UV Index Gauge -->
+            <div class="glass-panel rounded-xl p-4 flex flex-col justify-between hover:border-white/20 transition-all">
+              <div class="flex items-center justify-between text-outline">
+                <span class="text-[11px] font-label-uppercase uppercase">UV Index</span>
+                <span class="material-symbols-outlined text-[16px] text-tertiary-container" data-icon="wb_sunny">wb_sunny</span>
+              </div>
+              <div class="my-2">
+                <div class="flex items-baseline gap-1.5">
+                  <span class="text-stat-value font-stat-value text-on-surface" id="stat-uv-val">4.2</span>
+                  <span class="text-xs font-semibold text-tertiary" id="stat-uv-label">Moderate</span>
+                </div>
+                <!-- Progress bar gauge -->
+                <div class="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-emerald-400 via-tertiary to-rose-500 rounded-full w-[42%] transition-all duration-500" id="stat-uv-bar"></div>
+                </div>
+              </div>
+              <div class="text-[11px] text-outline flex items-center justify-between pt-1 border-t border-white/5">
+                <span>Peak Protection</span>
+                <span class="text-on-surface font-medium">13:00 - 15:30</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Humidity & Dew Point -->
+            <div class="glass-panel rounded-xl p-4 flex flex-col justify-between hover:border-white/20 transition-all">
+              <div class="flex items-center justify-between text-outline">
+                <span class="text-[11px] font-label-uppercase uppercase">Humidity</span>
+                <span class="material-symbols-outlined text-[16px] text-primary" data-icon="humidity_percentage">humidity_percentage</span>
+              </div>
+              <div class="my-2">
+                <div class="flex items-baseline">
+                  <span class="text-stat-value font-stat-value text-on-surface" id="stat-humidity-val">68</span>
+                  <span class="text-xs text-outline ml-1">%</span>
+                </div>
+                <span class="text-[11px] text-outline" id="stat-dew-point">Dew point: 12°C</span>
+              </div>
+              <div class="text-[11px] text-outline flex items-center justify-between pt-1 border-t border-white/5">
+                <span>Perception</span>
+                <span class="text-emerald-400 font-medium">Comfortable</span>
+              </div>
+            </div>
+
+            <!-- Card 4: Atmospheric Pressure -->
+            <div class="glass-panel rounded-xl p-4 flex flex-col justify-between hover:border-white/20 transition-all">
+              <div class="flex items-center justify-between text-outline">
+                <span class="text-[11px] font-label-uppercase uppercase">Barometer</span>
+                <span class="material-symbols-outlined text-[16px] text-secondary" data-icon="compress">compress</span>
+              </div>
+              <div class="my-2">
+                <div class="flex items-baseline">
+                  <span class="text-stat-value font-stat-value text-on-surface" id="stat-pressure-val">1016</span>
+                  <span class="text-xs text-outline ml-1">hPa</span>
+                </div>
+                <div class="flex items-center gap-1 text-[11px] text-emerald-400">
+                  <span class="material-symbols-outlined text-[13px]" data-icon="trending_up">trending_up</span>
+                  <span>Steady Trend</span>
+                </div>
+              </div>
+              <div class="text-[11px] text-outline flex items-center justify-between pt-1 border-t border-white/5">
+                <span>Isobar Normal</span>
+                <span class="text-on-surface font-medium">1013.25 hPa</span>
+              </div>
+            </div>
+
+            <!-- Card 5: Visibility Clarity -->
+            <div class="glass-panel rounded-xl p-4 flex flex-col justify-between hover:border-white/20 transition-all">
+              <div class="flex items-center justify-between text-outline">
+                <span class="text-[11px] font-label-uppercase uppercase">Visibility</span>
+                <span class="material-symbols-outlined text-[16px] text-primary" data-icon="visibility">visibility</span>
+              </div>
+              <div class="my-2">
+                <div class="flex items-baseline">
+                  <span class="text-stat-value font-stat-value text-on-surface" id="stat-visibility-val">10.0</span>
+                  <span class="text-xs text-outline ml-1">km</span>
+                </div>
+                <span class="text-[11px] text-primary-container">Crystal clear optics</span>
+              </div>
+              <div class="text-[11px] text-outline flex items-center justify-between pt-1 border-t border-white/5">
+                <span>Aviation Tier</span>
+                <span class="text-emerald-400 font-medium">CAT I VFR</span>
+              </div>
+            </div>
+
+            <!-- Card 6: Air Quality Index (AQI) -->
+            <div class="glass-panel rounded-xl p-4 flex flex-col justify-between hover:border-white/20 transition-all">
+              <div class="flex items-center justify-between text-outline">
+                <span class="text-[11px] font-label-uppercase uppercase">Air Quality (AQI)</span>
+                <span class="material-symbols-outlined text-[16px] text-emerald-400" data-icon="nest_eco_leaf">nest_eco_leaf</span>
+              </div>
+              <div class="my-2">
+                <div class="flex items-baseline gap-1.5">
+                  <span class="text-stat-value font-stat-value text-emerald-400" id="stat-aqi-val">28</span>
+                  <span class="text-xs font-semibold text-emerald-400">Good</span>
+                </div>
+                <span class="text-[11px] text-outline">PM2.5: 6.4 µg/m³</span>
+              </div>
+              <div class="text-[11px] text-outline flex items-center justify-between pt-1 border-t border-white/5">
+                <span>Inversion Risk</span>
+                <span class="text-on-surface font-medium">Minimal</span>
+              </div>
+            </div>
+
+            <!-- Card 7: Precipitation Accumulation -->
+            <div class="glass-panel rounded-xl p-4 flex flex-col justify-between hover:border-white/20 transition-all">
+              <div class="flex items-center justify-between text-outline">
+                <span class="text-[11px] font-label-uppercase uppercase">Rain Accum.</span>
+                <span class="material-symbols-outlined text-[16px] text-primary-container" data-icon="water_drop">water_drop</span>
+              </div>
+              <div class="my-2">
+                <div class="flex items-baseline">
+                  <span class="text-stat-value font-stat-value text-on-surface" id="stat-rain-acc">0.4</span>
+                  <span class="text-xs text-outline ml-1">mm</span>
+                </div>
+                <span class="text-[11px] text-outline">Past 24 hours total</span>
+              </div>
+              <div class="text-[11px] text-outline flex items-center justify-between pt-1 border-t border-white/5">
+                <span>Soil Saturation</span>
+                <span class="text-on-surface font-medium">32%</span>
+              </div>
+            </div>
+
+            <!-- Card 8: Solar Trajectory Arc (Sunrise / Sunset) -->
+            <div class="glass-panel rounded-xl p-4 flex flex-col justify-between hover:border-white/20 transition-all">
+              <div class="flex items-center justify-between text-outline">
+                <span class="text-[11px] font-label-uppercase uppercase">Solar Trajectory</span>
+                <span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="wb_twilight">wb_twilight</span>
+              </div>
+              <div class="my-1 relative flex items-center justify-center">
+                <svg class="w-full h-12 overflow-visible" viewbox="0 0 120 50">
+                  <path d="M 10 45 A 50 40 0 0 1 110 45" fill="none" stroke="rgba(255,255,255,0.15)" stroke-dasharray="3 3" stroke-width="2"></path>
+                  <path d="M 10 45 A 50 40 0 0 1 70 12" fill="none" id="solar-active-path" stroke="#ffc174" stroke-width="2.5"></path>
+                  <circle class="animate-pulse" cx="70" cy="12" fill="#f59e0b" r="4.5" stroke="#ffffff" stroke-width="1.5"></circle>
+                </svg>
+              </div>
+              <div class="flex items-center justify-between text-[11px] pt-1 border-t border-white/5">
+                <div class="text-left">
+                  <span class="text-outline block text-[9px]">RISE</span>
+                  <span class="font-medium text-on-surface" id="sunrise-time">06:24</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-outline block text-[9px]">SET</span>
+                  <span class="font-medium text-on-surface" id="sunset-time">18:08</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doppler Radar Telemetry & Interactive Tactical Map Module -->
+        <div class="glass-panel rounded-2xl p-5 overflow-hidden relative transition-all duration-300" id="radar-section">
+          <!-- Header Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-3 relative z-10">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-primary-container/20 border border-primary-container/40 text-primary-container">
+                  <span class="material-symbols-outlined text-[18px]">radar</span>
+                </span>
+                <h2 class="text-headline-md font-headline-md font-bold text-on-surface text-base sm:text-lg flex items-center gap-2">
+                  <span>Doppler Radar GIS & Tactical Live Map</span>
+                  <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Live Feed
+                  </span>
+                </h2>
+              </div>
+              <p class="text-xs text-outline mt-0.5">Real-time dual-pol precipitation reflectivities, satellite telemetry, and GPS target synchronization</p>
+            </div>
+            
+            <!-- Quick Action Toolbar -->
+            <div class="flex items-center flex-wrap gap-2">
+              <!-- Radar Sweep Animate / Pause -->
+              <button class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 active:scale-95 text-xs text-on-surface flex items-center gap-1.5 border border-white/10 transition-colors cursor-pointer" id="radar-play-btn" title="Toggle Radar Sweep Animation">
+                <span class="material-symbols-outlined text-[15px]" data-icon="play_arrow">play_arrow</span>
+                <span id="radar-btn-label">Pause Echo</span>
+              </button>
+
+              <!-- Recenter Target on Current Location -->
+              <button class="px-2.5 py-1.5 rounded-lg bg-primary-container/20 hover:bg-primary-container/30 active:scale-95 text-xs text-primary-container flex items-center gap-1.5 border border-primary-container/30 transition-colors cursor-pointer" onclick="locateCurrentGPS()" title="Triangulate & Lock Current GPS Coordinates">
+                <span class="material-symbols-outlined text-[15px]">my_location</span>
+                <span>Lock GPS</span>
+              </button>
+
+              <!-- Fullscreen Observatory Button -->
+              <button class="p-1.5 rounded-lg bg-white/10 hover:bg-white/15 active:scale-95 text-xs text-on-surface flex items-center justify-center border border-white/10 transition-colors cursor-pointer" onclick="if(radarMapInstance) radarMapInstance.toggleFullscreen()" title="Toggle Fullscreen Observatory Radar">
+                <span class="material-symbols-outlined text-[18px]" id="radar-fullscreen-icon">fullscreen</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Professional Live Location Map Cockpit Container -->
+          <div class="relative w-full h-96 sm:h-[460px] rounded-xl overflow-hidden bg-surface-container-lowest/90 border border-primary-container/30 shadow-2xl">
+            
+            <!-- Leaflet Interactive Map Canvas -->
+            <div class="w-full h-full z-0" id="radar-interactive-map"></div>
+
+            <!-- Top Left Floating HUD Telemetry Badge -->
+            <div class="absolute top-3 left-3 z-20 flex flex-col gap-1.5 pointer-events-none">
+              <!-- Station Name & Status Badge -->
+              <div class="glass-panel-elevated px-3 py-1.5 rounded-lg border border-primary-container/40 flex items-center gap-2 shadow-xl backdrop-blur-xl pointer-events-auto">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span class="text-xs font-semibold text-white tracking-wide" id="radar-loc-label">Lahore Station [Live]</span>
+                <span class="h-3 w-px bg-white/20"></span>
+                <span class="text-[10px] font-mono text-primary font-bold">2.4 GHz</span>
+              </div>
+
+              <!-- Precise Coordinates HUD Readout -->
+              <div class="glass-panel-elevated px-2.5 py-1 rounded-md border border-white/10 text-[10px] font-mono text-outline flex items-center gap-2 shadow-lg backdrop-blur-md">
+                <span>LAT: <strong class="text-white" id="map-hud-lat">+31.5826°</strong></span>
+                <span>LON: <strong class="text-white" id="map-hud-lon">+74.3276°</strong></span>
+                <span class="text-emerald-400">±4.2m</span>
+              </div>
+            </div>
+
+            <!-- Top Right Layer Selector & Google Maps Action Deck -->
+            <div class="absolute top-3 right-3 z-20 flex items-center gap-1.5">
+              <!-- Basemap Switchers (100% Watermark-Free) -->
+              <div class="glass-panel-elevated p-1 rounded-lg border border-white/15 flex items-center gap-1 shadow-xl backdrop-blur-xl">
+                <button class="map-layer-btn bg-primary-container text-on-primary-container px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all active:scale-95 flex items-center gap-1" data-layer="dark" onclick="if(radarMapInstance) radarMapInstance.setBasemap('dark')" title="Tactical Dark Canvas View">
+                  <span class="material-symbols-outlined text-[13px]">dark_mode</span>
+                  <span class="hidden sm:inline">Dark</span>
+                </button>
+
+                <button class="map-layer-btn bg-surface-container-high/80 text-on-surface-variant hover:text-white px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all active:scale-95 flex items-center gap-1" data-layer="satellite" onclick="if(radarMapInstance) radarMapInstance.setBasemap('satellite')" title="Photorealistic High-Resolution Satellite View">
+                  <span class="material-symbols-outlined text-[13px]">satellite_alt</span>
+                  <span class="hidden sm:inline">Satellite</span>
+                </button>
+
+                <button class="map-layer-btn bg-surface-container-high/80 text-on-surface-variant hover:text-white px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all active:scale-95 flex items-center gap-1" data-layer="cyber" onclick="if(radarMapInstance) radarMapInstance.setBasemap('cyber')" title="Cyber High-Contrast Street Grid View">
+                  <span class="material-symbols-outlined text-[13px]">grid_4x4</span>
+                  <span class="hidden sm:inline">Cyber</span>
+                </button>
+              </div>
+
+              <!-- RainViewer Echo Toggle Button -->
+              <button class="glass-panel-elevated px-2.5 py-1.5 rounded-lg border border-primary-container/40 text-primary-container text-[11px] font-semibold transition-all active:scale-95 flex items-center gap-1 shadow-xl hover:bg-white/10" id="map-toggle-echo-btn" onclick="if(radarMapInstance) radarMapInstance.toggleRadarEcho()" title="Toggle Real-Time Precipitation Doppler Layer">
+                <span class="material-symbols-outlined text-[14px]">thunderstorm</span>
+                <span class="hidden md:inline">Echo</span>
+              </button>
+
+              <!-- Recenter Reticle Button -->
+              <button class="glass-panel-elevated p-1.5 rounded-lg border border-white/15 text-primary-container hover:text-white text-[11px] font-semibold transition-all active:scale-95 shadow-xl hover:bg-white/10" onclick="if(radarMapInstance) radarMapInstance.recenter()" title="Recenter Camera on Target Coordinates">
+                <span class="material-symbols-outlined text-[16px]">filter_center_focus</span>
+              </button>
+
+              <!-- Direct Google Maps Teleport Action -->
+              <button class="glass-panel-elevated px-2.5 py-1.5 rounded-lg border border-sky-400/50 bg-sky-500/20 hover:bg-sky-500/30 text-sky-200 text-[11px] font-semibold transition-all active:scale-95 shadow-xl flex items-center gap-1" onclick="window.open('https://www.google.com/maps?q=' + (observatoryState.cities[observatoryState.activeCityIndex]?.lat || 31.5826) + ',' + (observatoryState.cities[observatoryState.activeCityIndex]?.lon || 74.3276), '_blank')" title="Open Exact Coordinates in Google Maps">
+                <span class="material-symbols-outlined text-[14px]">map</span>
+                <span class="hidden lg:inline">Google Maps ↗</span>
+              </button>
+            </div>
+
+            <!-- Compass Azimuth Compass Rose Overlay (Top-Center / Subtle) -->
+            <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-10 overflow-hidden opacity-35">
+              <!-- Azimuth Cardinal Marks -->
+              <div class="w-80 h-80 rounded-full border border-sky-400/20 relative flex items-center justify-center">
+                <span class="absolute top-1 text-[9px] font-mono text-sky-300 font-bold">000° N</span>
+                <span class="absolute right-1 text-[9px] font-mono text-sky-300 font-bold">090° E</span>
+                <span class="absolute bottom-1 text-[9px] font-mono text-sky-300 font-bold">180° S</span>
+                <span class="absolute left-1 text-[9px] font-mono text-sky-300 font-bold">270° W</span>
+                <!-- Grid Lines -->
+                <div class="absolute w-full h-px bg-sky-400/15"></div>
+                <div class="absolute h-full w-px bg-sky-400/15"></div>
+              </div>
+
+              <!-- Rotating Sweep Beam -->
+              <div class="absolute w-96 h-96 radar-beam pointer-events-none">
+                <div class="w-1/2 h-1/2 bg-gradient-to-br from-primary-container/40 via-primary-container/15 to-transparent rounded-tl-full origin-bottom-right"></div>
+              </div>
+            </div>
+
+            <!-- Bottom Tactical Telemetry & Doppler Scale HUD Bar -->
+            <div class="absolute bottom-2 left-3 right-3 z-20 flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-outline bg-surface-container-lowest/90 px-3 py-1.5 rounded-lg backdrop-blur-xl border border-white/10 shadow-2xl">
+              <!-- Left Frequency & Telemetry Status -->
+              <div class="flex items-center gap-3">
+                <span class="text-white font-semibold flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+                  BAND S (2.45 GHz)
+                </span>
+                <span class="hidden sm:inline text-outline">SCAN: 360° CONT</span>
+                <span class="hidden md:inline text-outline">HORIZON: 55 KM</span>
+              </div>
+
+              <!-- Center Doppler Reflectivity Bar (dBZ Spectrum) -->
+              <div class="flex items-center gap-2">
+                <span class="text-[9px]">Drizzle (5 dBZ)</span>
+                <div class="w-32 sm:w-44 h-2 rounded-full bg-gradient-to-r from-sky-400 via-emerald-400 via-amber-400 to-rose-600 shadow-inner"></div>
+                <span class="text-[9px] text-rose-400 font-bold">Severe (65+ dBZ)</span>
+              </div>
+
+              <!-- Right Zoom & Google Maps Badge -->
+              <div class="flex items-center gap-2 text-right">
+                <span class="hidden sm:inline text-outline">ZOOM: <strong class="text-primary" id="map-hud-zoom">10x</strong></span>
+                <span class="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold text-[9px]">GIS SYNCHRONIZED</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant/30 dark:border-outline-variant/20 mt-12 pb-24 md:pb-8">
+    <div class="w-full py-space-lg px-space-lg max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-space-md">
+      <!-- Brand & Copyright -->
+      <div class="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+        <span class="text-headline-md font-headline-md text-on-surface font-bold">SkyCast</span>
+        <span class="hidden sm:inline text-outline">|</span>
+        <p class="text-body-sm font-body-sm text-outline">
+          © 2026 SkyCast Atmospheric Observatory • Engineered by <span class="text-primary font-medium hover:text-primary-container cursor-pointer transition-colors" onclick="playPreloaderSequence()">SherryDevStudio</span>
+        </p>
+      </div>
+
+      <!-- Footer Navigation Links -->
+      <nav class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-body-sm font-body-sm">
+        <a class="text-on-surface-variant hover:text-on-surface hover:text-primary dark:hover:text-primary-container transition-colors duration-150 cursor-pointer" href="#radar-telemetry">Radar Telemetry</a>
+        <a class="text-on-surface-variant hover:text-on-surface hover:text-primary dark:hover:text-primary-container transition-colors duration-150 cursor-pointer" href="#data-sources">Data Sources</a>
+        <a class="text-on-surface-variant hover:text-on-surface hover:text-primary dark:hover:text-primary-container transition-colors duration-150 cursor-pointer" href="#api-docs">API Documentation</a>
+        <a class="text-on-surface-variant hover:text-on-surface hover:text-primary dark:hover:text-primary-container transition-colors duration-150 cursor-pointer" href="#privacy">Privacy Policy</a>
+        <a class="text-on-surface-variant hover:text-on-surface hover:text-primary dark:hover:text-primary-container transition-colors duration-150 cursor-pointer" href="#terms">Terms of Service</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ================= MOBILE BOTTOM NAVIGATION DOCK (Native App Feel) ================= -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/90 dark:bg-surface-dim/90 backdrop-blur-xl border-t border-outline-variant/30 py-2 px-4 flex items-center justify-around shadow-2xl safe-area-bottom" id="mobile-bottom-dock">
+    <a href="#dashboard" class="flex flex-col items-center gap-0.5 text-primary dark:text-primary-container active:scale-90 transition-transform">
+      <span class="material-symbols-outlined text-[20px]">dashboard</span>
+      <span class="text-[10px] font-medium">Dashboard</span>
+    </a>
+    <a href="#radar-section" class="flex flex-col items-center gap-0.5 text-outline hover:text-on-surface active:scale-90 transition-transform">
+      <span class="material-symbols-outlined text-[20px]">radar</span>
+      <span class="text-[10px] font-medium">Radar</span>
+    </a>
+    <button onclick="locateCurrentGPS()" class="flex flex-col items-center gap-0.5 text-outline hover:text-primary-container active:scale-90 transition-transform cursor-pointer">
+      <span class="material-symbols-outlined text-[20px]">my_location</span>
+      <span class="text-[10px] font-medium">GPS Fix</span>
+    </button>
+    <button onclick="document.getElementById('mobile-search-toggle-btn')?.click();" class="flex flex-col items-center gap-0.5 text-outline hover:text-on-surface active:scale-90 transition-transform cursor-pointer">
+      <span class="material-symbols-outlined text-[20px]">search</span>
+      <span class="text-[10px] font-medium">Search</span>
+    </button>
+    <button onclick="document.getElementById('action-theme-mode')?.click();" class="flex flex-col items-center gap-0.5 text-outline hover:text-on-surface active:scale-90 transition-transform cursor-pointer" id="mobile-theme-btn" title="Toggle Light/Dark Theme">
+      <span class="material-symbols-outlined text-[20px]" id="mobile-dock-theme-icon">dark_mode</span>
+      <span class="text-[10px] font-medium" id="mobile-dock-theme-label">Mode</span>
+    </button>
+  </nav>
+
+  <!-- ================= INTERACTIVE MODALS ================= -->
+
+  <!-- 1. Severe Bulletins & Alerts Modal -->
+  <div class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/70 modal-backdrop hidden" id="bulletins-modal">
+    <div class="glass-panel-elevated max-w-lg w-full rounded-2xl p-6 border border-white/20 relative shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2 text-tertiary-container">
+          <span class="material-symbols-outlined text-[24px]">crisis_alert</span>
+          <h3 class="text-lg font-headline-md font-bold text-white">Atmospheric Bulletins & Advisories</h3>
+        </div>
+        <button class="p-1 rounded-lg text-outline hover:text-white hover:bg-white/10 transition-colors" onclick="closeModal('bulletins-modal')">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="p-3.5 rounded-xl bg-tertiary-container/10 border border-tertiary-container/30 flex items-start gap-3">
+          <span class="material-symbols-outlined text-tertiary-container text-[20px] mt-0.5">warning</span>
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-white">River Basin Fog Inversion</span>
+              <span class="text-[10px] font-mono text-tertiary px-1.5 py-0.5 rounded bg-tertiary/20">Active</span>
+            </div>
+            <p class="text-xs text-outline mt-1">Dense localized micro-fog forming in depressions between 22:00 and 06:00 UTC. Reduced optical path for low-altitude aviation.</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-primary-container/10 border border-primary-container/30 flex items-start gap-3">
+          <span class="material-symbols-outlined text-primary-container text-[20px] mt-0.5">info</span>
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-white">Doppler Radar Calibration</span>
+              <span class="text-[10px] font-mono text-primary px-1.5 py-0.5 rounded bg-primary/20">Synced</span>
+            </div>
+            <p class="text-xs text-outline mt-1">Multi-station dual-polarization beam operating nominal at 2.4 GHz. RainViewer synoptic feed refreshed every 10 minutes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-white/10 flex justify-end">
+        <button class="px-4 py-2 rounded-lg bg-primary-container text-on-primary-container font-semibold text-xs hover:bg-primary-fixed-dim transition-all active:scale-95" onclick="closeModal('bulletins-modal')">
+          Acknowledge & Dismiss
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Sign In / Authentication Modal -->
+  <div class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/70 modal-backdrop hidden" id="auth-modal">
+    <div class="glass-panel-elevated max-w-sm w-full rounded-2xl p-6 border border-white/20 relative shadow-2xl space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2 text-primary-container">
+          <span class="material-symbols-outlined text-[24px]">lock</span>
+          <h3 class="text-lg font-headline-md font-bold text-white">Observatory Portal</h3>
+        </div>
+        <button class="p-1 rounded-lg text-outline hover:text-white hover:bg-white/10 transition-colors" onclick="closeModal('auth-modal')">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <p class="text-xs text-outline">Access privileged meteorological radar archives, customized alert thresholds, and telemetry station control.</p>
+
+      <form class="space-y-3" onsubmit="event.preventDefault(); showToast('Welcome back, Meteorologist! Authentication successful.'); closeModal('auth-modal');">
+        <div>
+          <label class="block text-[11px] font-label-uppercase uppercase text-outline mb-1">Operator Email / ID</label>
+          <input type="email" required placeholder="sherry@skycast.dev" class="w-full px-3 py-2 text-xs bg-white/5 border border-white/15 rounded-lg text-white placeholder-outline focus:outline-none focus:ring-2 focus:ring-primary-container/50"/>
+        </div>
+        <div>
+          <label class="block text-[11px] font-label-uppercase uppercase text-outline mb-1">Passkey</label>
+          <input type="password" required placeholder="••••••••••••" class="w-full px-3 py-2 text-xs bg-white/5 border border-white/15 rounded-lg text-white placeholder-outline focus:outline-none focus:ring-2 focus:ring-primary-container/50"/>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-lg bg-primary-container text-on-primary-container font-semibold text-xs hover:bg-primary-fixed-dim transition-all active:scale-95 shadow-md shadow-primary-container/20 mt-2">
+          Authenticate Session
+        </button>
+
+        <button type="button" class="w-full py-2 rounded-lg bg-white/5 border border-white/10 text-on-surface-variant hover:text-white text-xs transition-all" onclick="showToast('Browsing in Observatory Guest Mode.'); closeModal('auth-modal');">
+          Continue as Guest Observer
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Historical Analytics Modal -->
+  <div class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/70 modal-backdrop hidden" id="historical-modal">
+    <div class="glass-panel-elevated max-w-lg w-full rounded-2xl p-6 border border-white/20 relative shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2 text-secondary">
+          <span class="material-symbols-outlined text-[24px]">history</span>
+          <h3 class="text-lg font-headline-md font-bold text-white">Historical Climate & Telemetry Logs</h3>
+        </div>
+        <button class="p-1 rounded-lg text-outline hover:text-white hover:bg-white/10 transition-colors" onclick="closeModal('historical-modal')">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="p-3 rounded-lg bg-white/5 border border-white/10">
+          <div class="font-semibold text-white mb-1">Seasonal Anomaly Analysis</div>
+          <p class="text-outline">Station records indicate autumn surface temperatures currently trending +0.8°C above the 1991–2020 climatological baseline.</p>
+        </div>
+        <div class="p-3 rounded-lg bg-white/5 border border-white/10">
+          <div class="font-semibold text-white mb-1">Precipitation Decadal Trend</div>
+          <p class="text-outline">Total moisture accumulation for the previous quarter totaled 142 mm, within normal variance parameters (±4%).</p>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-white/10 flex justify-end">
+        <button class="px-4 py-2 rounded-lg bg-white/10 text-white font-medium text-xs hover:bg-white/15 transition-all" onclick="closeModal('historical-modal')">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. API Docs & Data Sources Modal -->
+  <div class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/70 modal-backdrop hidden" id="api-docs-modal">
+    <div class="glass-panel-elevated max-w-lg w-full rounded-2xl p-6 border border-white/20 relative shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2 text-primary-container">
+          <span class="material-symbols-outlined text-[24px]">api</span>
+          <h3 class="text-lg font-headline-md font-bold text-white">Data Sources & API Architecture</h3>
+        </div>
+        <button class="p-1 rounded-lg text-outline hover:text-white hover:bg-white/10 transition-colors" onclick="closeModal('api-docs-modal')">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs text-outline">
+        <p><strong class="text-white">Open-Meteo Synoptic API:</strong> Real-time numerical weather prediction, global geocoding, and high-resolution hourly thermal splines without rate-limit constraints.</p>
+        <p><strong class="text-white">RainViewer Live Doppler Tiles:</strong> Real-time 2.4 GHz dual-polarization precipitation reflectivities rendered atop CartoDB Dark Matter tiles.</p>
+        <p><strong class="text-white">Google Maps & GPS Geolocation:</strong> Native HTML5 Geolocation triangulating browser GPS fix with instant Google Maps spatial verification.</p>
+      </div>
+
+      <div class="pt-3 border-t border-white/10 flex justify-end">
+        <button class="px-4 py-2 rounded-lg bg-primary-container text-on-primary-container font-semibold text-xs hover:bg-primary-fixed-dim transition-all" onclick="closeModal('api-docs-modal')">
+          Close Documentation
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Legal / Privacy & Terms Modal -->
+  <div class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/70 modal-backdrop hidden" id="legal-modal">
+    <div class="glass-panel-elevated max-w-lg w-full rounded-2xl p-6 border border-white/20 relative shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2 text-white">
+          <span class="material-symbols-outlined text-[24px]">policy</span>
+          <h3 class="text-lg font-headline-md font-bold text-white">Privacy Policy & Terms</h3>
+        </div>
+        <button class="p-1 rounded-lg text-outline hover:text-white hover:bg-white/10 transition-colors" onclick="closeModal('legal-modal')">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-2 text-xs text-outline">
+        <p>SkyCast respects user telemetry privacy. GPS coordinates are requested strictly on client-side to fetch regional meteorological parameters and are never stored on external database servers.</p>
+        <p>All weather observational metrics and radar projections are provided for public educational and situational awareness purposes.</p>
+      </div>
+
+      <div class="pt-3 border-t border-white/10 flex justify-end">
+        <button class="px-4 py-2 rounded-lg bg-white/10 text-white font-medium text-xs hover:bg-white/15 transition-all" onclick="closeModal('legal-modal')">
+          Understood
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Modular Application Scripts -->
+  <script src="js/weather-api.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/map-radar.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

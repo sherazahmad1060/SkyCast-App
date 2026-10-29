@@ -1,0 +1,717 @@
+/* ==========================================================================
+   SkyCast — Atmospheric Glass & Meteorological Observatory Styles
+   ========================================================================== */
+
+/* Material Symbols configuration */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  display: inline-block;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Glassmorphism Refraction & Shimmer */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.02) 100%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.glass-panel-elevated {
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.65);
+}
+
+.glass-panel-glow {
+  box-shadow: 0 10px 32px -4px rgba(56, 189, 248, 0.25);
+}
+
+/* Weather Ambient Background Gradients */
+.weather-clear-day {
+  background: radial-gradient(circle at 18% 20%, rgba(56, 189, 248, 0.25) 0%, rgba(14, 116, 144, 0.18) 35%, rgba(11, 19, 38, 0.96) 75%);
+}
+
+.weather-storm {
+  background: radial-gradient(circle at 20% 15%, rgba(192, 132, 252, 0.32) 0%, rgba(47, 58, 163, 0.35) 40%, rgba(6, 14, 32, 0.98) 80%);
+}
+
+.weather-rain {
+  background: radial-gradient(circle at 25% 20%, rgba(45, 212, 191, 0.25) 0%, rgba(30, 58, 138, 0.35) 45%, rgba(11, 19, 38, 0.98) 85%);
+}
+
+.weather-night {
+  background: radial-gradient(circle at 75% 25%, rgba(168, 175, 255, 0.2) 0%, rgba(30, 27, 75, 0.45) 40%, rgba(6, 14, 32, 0.98) 85%);
+}
+
+.weather-snow {
+  background: radial-gradient(circle at 30% 20%, rgba(224, 242, 254, 0.28) 0%, rgba(71, 85, 105, 0.3) 45%, rgba(11, 19, 38, 0.97) 85%);
+}
+
+/* Lightning Flash Effect */
+@keyframes lightning-flash {
+  0%, 92%, 97%, 100% { opacity: 0; }
+  93% { opacity: 0.75; }
+  95% { opacity: 0.95; }
+}
+
+.lightning-effect {
+  animation: lightning-flash 8s infinite;
+  pointer-events: none;
+}
+
+/* Floating subtle animation */
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+.float-anim {
+  animation: subtle-float 6s ease-in-out infinite;
+}
+
+/* Radar scan pulse & sweep */
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.radar-beam {
+  transform-origin: center center;
+  animation: radar-sweep 4s linear infinite;
+}
+
+/* Preloader Radar Ring Waves */
+@keyframes preloader-pulse-ring {
+  0% { transform: scale(0.65); opacity: 0.85; }
+  50% { opacity: 0.35; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.preloader-ring-anim {
+  animation: preloader-pulse-ring 3s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+/* Pulse radar echo */
+@keyframes pulse-echo {
+  0% { transform: scale(0.9); opacity: 0.4; }
+  50% { transform: scale(1.15); opacity: 0.8; }
+  100% { transform: scale(0.9); opacity: 0.4; }
+}
+
+.echo-blob {
+  animation: pulse-echo 3s ease-in-out infinite;
+}
+
+/* Target Crosshairs Ping */
+@keyframes target-crosshair-pulse {
+  0% { transform: scale(0.95); opacity: 0.9; }
+  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 10px #38bdf8); }
+  100% { transform: scale(0.95); opacity: 0.9; }
+}
+
+.crosshair-anim {
+  animation: target-crosshair-pulse 2s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(11, 19, 38, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.5);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Interactive modal backdrops */
+.modal-backdrop {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ==========================================================================
+   Professional Live Location Map & Leaflet Radar Theme
+   ========================================================================== */
+.leaflet-container {
+  background: #060e20 !important;
+  font-family: 'Inter', sans-serif !important;
+  border-radius: inherit;
+}
+
+/* Basemap Custom Tile Filters (100% Clean, No Watermarks) */
+.map-tile-cyber-dark {
+  filter: invert(100%) hue-rotate(185deg) brightness(85%) contrast(115%) saturate(70%) !important;
+}
+
+.map-tile-satellite {
+  filter: brightness(92%) contrast(110%) saturate(105%) !important;
+}
+
+.map-tile-dark-canvas {
+  filter: brightness(90%) contrast(120%) !important;
+}
+
+/* Custom Zoom Control Styling */
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+
+.leaflet-bar a {
+  background-color: rgba(15, 23, 42, 0.85) !important;
+  color: #38bdf8 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(12px) !important;
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+  font-size: 15px !important;
+  font-weight: bold !important;
+  transition: all 0.15s ease !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: #38bdf8 !important;
+  color: #00354a !important;
+}
+
+/* Glassmorphic Map Popups */
+.leaflet-popup-content-wrapper {
+  background: rgba(11, 19, 38, 0.95) !important;
+  color: #dae2fd !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(56, 189, 248, 0.2) !important;
+  padding: 2px !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px !important;
+  line-height: 1.4 !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(11, 19, 38, 0.95) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: #94a3b8 !important;
+  padding: 6px !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: #38bdf8 !important;
+}
+
+/* Custom Tactical Live Reticle Pin */
+.tactical-reticle-pin {
+  pointer-events: auto;
+}
+
+/* Fullscreen Map Mode */
+.radar-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+/* Toast alert notification animation */
+@keyframes toast-in {
+  from { transform: translateY(100%) scale(0.9); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes toast-out {
+  from { transform: translateY(0) scale(1); opacity: 1; }
+  to { transform: translateY(100%) scale(0.9); opacity: 0; }
+}
+
+.toast-enter {
+  animation: toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-leave {
+  animation: toast-out 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================================================
+   Daylight / Light Mode Theme Overrides (High-Contrast, Rich & Vibrant)
+   ========================================================================== */
+html.light-mode {
+  color-scheme: light;
+}
+
+html.light-mode body {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* Header & Navigation in Light Mode */
+html.light-mode header {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 12px -2px rgba(15, 23, 42, 0.06) !important;
+}
+
+html.light-mode header a,
+html.light-mode header nav a {
+  color: #475569 !important;
+}
+
+html.light-mode header nav a:hover,
+html.light-mode header nav a.text-primary {
+  color: #0284c7 !important;
+  border-color: #0284c7 !important;
+}
+
+/* Glass Panels in Light Mode */
+html.light-mode .glass-panel {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+html.light-mode .glass-panel::before {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(241, 245, 249, 0.6) 100%) !important;
+}
+
+html.light-mode .glass-panel-elevated {
+  background: #ffffff !important;
+  border: 1px solid #94a3b8 !important;
+  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06) !important;
+  color: #0f172a !important;
+}
+
+/* Text & Contrast in Light Mode — Crisp, Clear & Never Washed Out */
+html.light-mode .text-on-surface,
+html.light-mode #city-title,
+html.light-mode #hero-temp,
+html.light-mode .stat-value,
+html.light-mode h1,
+html.light-mode h2,
+html.light-mode h3,
+html.light-mode strong {
+  color: #0f172a !important;
+}
+
+html.light-mode .text-outline {
+  color: #475569 !important;
+}
+
+html.light-mode .text-on-surface-variant {
+  color: #334155 !important;
+}
+
+/* Eliminate invisible white text on white cards in light mode */
+html.light-mode .glass-panel .text-white,
+html.light-mode .glass-panel p,
+html.light-mode .glass-panel span:not(.btn-white-text):not(.text-emerald-400):not(.text-primary):not(.text-primary-container):not(.badge-text) {
+  color: #1e293b;
+}
+
+/* Vibrant Primary Accents in Light Mode (Deep Sky Cobalt instead of faint cyan) */
+html.light-mode .text-primary,
+html.light-mode .text-primary-container,
+html.light-mode #hero-unit,
+html.light-mode #condition-title,
+html.light-mode #precip-risk {
+  color: #0284c7 !important;
+}
+
+html.light-mode .bg-primary-container {
+  background-color: #0284c7 !important;
+  color: #ffffff !important;
+}
+
+html.light-mode .bg-primary-container\/20,
+html.light-mode .bg-primary-container\/15,
+html.light-mode .bg-primary-container\/10 {
+  background-color: #e0f2fe !important;
+  border-color: #bae6fd !important;
+  color: #0284c7 !important;
+}
+
+/* High/Low & Feels Like Badges in Light Mode */
+html.light-mode #temp-high,
+html.light-mode span.text-emerald-400 {
+  color: #047857 !important;
+}
+
+html.light-mode span.bg-emerald-500\/10 {
+  background-color: #d1fae5 !important;
+  border-color: #a7f3d0 !important;
+}
+
+html.light-mode #temp-low,
+html.light-mode span.text-sky-300 {
+  color: #0284c7 !important;
+}
+
+html.light-mode span.bg-sky-500\/10 {
+  background-color: #e0f2fe !important;
+  border-color: #bae6fd !important;
+}
+
+html.light-mode #feels-like-val {
+  color: #0f172a !important;
+}
+
+/* Weather Ambient Backgrounds in Light Mode (Rich Daylight Atmosphere) */
+html.light-mode .weather-clear-day {
+  background: radial-gradient(circle at 18% 20%, rgba(186, 230, 253, 0.85) 0%, rgba(224, 242, 254, 0.6) 35%, #f1f5f9 80%) !important;
+}
+
+html.light-mode .weather-storm {
+  background: radial-gradient(circle at 20% 15%, rgba(233, 213, 255, 0.8) 0%, rgba(216, 180, 254, 0.45) 40%, #e2e8f0 85%) !important;
+}
+
+html.light-mode .weather-rain {
+  background: radial-gradient(circle at 25% 20%, rgba(167, 243, 208, 0.75) 0%, rgba(186, 230, 253, 0.55) 45%, #f1f5f9 85%) !important;
+}
+
+html.light-mode .weather-night {
+  background: radial-gradient(circle at 75% 25%, rgba(224, 231, 255, 0.85) 0%, rgba(199, 210, 254, 0.55) 40%, #e2e8f0 85%) !important;
+}
+
+html.light-mode .weather-snow {
+  background: radial-gradient(circle at 30% 20%, rgba(248, 250, 252, 1) 0%, rgba(226, 232, 240, 0.9) 45%, #f1f5f9 85%) !important;
+}
+
+/* Sub-bars & Simulators in Light Mode */
+html.light-mode section.border-b {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light-mode .condition-sim-btn.active {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3) !important;
+}
+
+html.light-mode .condition-sim-btn:not(.active) {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+html.light-mode .condition-sim-btn:not(.active):hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+
+/* Alert Banner in Light Mode — Distinct Amber Warning */
+html.light-mode #alert-banner {
+  background: #fffbeb !important;
+  border: 1px solid #fde68a !important;
+  border-left: 4px solid #d97706 !important;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.08) !important;
+}
+
+html.light-mode #alert-banner span.font-semibold {
+  color: #b45309 !important;
+}
+
+html.light-mode #alert-banner p {
+  color: #78350f !important;
+}
+
+html.light-mode #alert-banner .text-tertiary-container {
+  color: #d97706 !important;
+}
+
+/* Search input & Combobox in Light Mode */
+html.light-mode #city-search-input,
+html.light-mode #mobile-city-search-input {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light-mode #city-search-input:focus,
+html.light-mode #mobile-city-search-input:focus {
+  border-color: #0284c7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+}
+
+html.light-mode #city-search-input::placeholder,
+html.light-mode #mobile-city-search-input::placeholder {
+  color: #64748b !important;
+}
+
+html.light-mode #search-combobox {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.18) !important;
+}
+
+html.light-mode #search-combobox div {
+  color: #0f172a !important;
+}
+
+html.light-mode #search-combobox div:hover {
+  background-color: #f1f5f9 !important;
+}
+
+/* Area Spline Thermal Chart in Light Mode */
+html.light-mode #temp-svg-chart line {
+  stroke: rgba(15, 23, 42, 0.08) !important;
+}
+
+html.light-mode #chart-temp-line {
+  stroke: #0284c7 !important;
+  stroke-width: 3 !important;
+}
+
+html.light-mode #chartGradient stop:first-child {
+  stop-color: #0284c7 !important;
+  stop-opacity: 0.3 !important;
+}
+
+html.light-mode #precipGradient stop:first-child {
+  stop-color: #6366f1 !important;
+  stop-opacity: 0.25 !important;
+}
+
+html.light-mode #chart-cursor-line {
+  stroke: #0284c7 !important;
+}
+
+html.light-mode #chart-cursor-dot {
+  fill: #0284c7 !important;
+  stroke: #ffffff !important;
+}
+
+html.light-mode #chart-tooltip {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15) !important;
+  color: #0f172a !important;
+}
+
+html.light-mode #tooltip-temp {
+  color: #0284c7 !important;
+}
+
+/* Hourly Strip Cards in Light Mode */
+html.light-mode #hourly-scroll-container > div:not(.bg-primary-container\/20) {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+html.light-mode #hourly-scroll-container > div:not(.bg-primary-container\/20):hover {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light-mode #hourly-scroll-container > div.bg-primary-container\/20 {
+  background: #e0f2fe !important;
+  border: 1px solid #0284c7 !important;
+}
+
+html.light-mode #hourly-scroll-container > div.bg-primary-container\/20 span {
+  color: #0369a1 !important;
+}
+
+/* 7-Day Forecast in Light Mode */
+html.light-mode #forecast-7day-list > div {
+  border-color: #f1f5f9 !important;
+}
+
+html.light-mode #forecast-7day-list > div:hover {
+  background-color: #f8fafc !important;
+}
+
+html.light-mode #forecast-7day-list .bg-white\/10 {
+  background-color: #e2e8f0 !important;
+}
+
+/* Stat Cards in Light Mode */
+html.light-mode #compass-needle span {
+  color: #0284c7 !important;
+}
+
+html.light-mode #solar-active-path {
+  stroke: #d97706 !important;
+}
+
+/* Unit Button in Light Mode */
+html.light-mode #unit-toggle-btn {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light-mode #unit-display {
+  color: #0284c7 !important;
+}
+
+/* Pinned Favorites Bar in Light Mode */
+html.light-mode #pinned-favorites-bar button {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light-mode #pinned-favorites-bar button:hover {
+  background: #f1f5f9 !important;
+  border-color: #0284c7 !important;
+}
+
+/* Tactical Map HUD in Light Mode — Retain High Contrast Dark HUD for Map Readability */
+html.light-mode #radar-interactive-map + div .glass-panel-elevated,
+html.light-mode .radar-telemetry-hud {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+/* Footer in Light Mode */
+html.light-mode footer {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light-mode footer a {
+  color: #475569 !important;
+}
+
+html.light-mode footer a:hover {
+  color: #0284c7 !important;
+}
+
+/* Modals in Light Mode */
+html.light-mode .modal-backdrop > div {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25) !important;
+}
+
+html.light-mode .modal-backdrop h3,
+html.light-mode .modal-backdrop strong {
+  color: #0f172a !important;
+}
+
+html.light-mode .modal-backdrop p,
+html.light-mode .modal-backdrop label {
+  color: #334155 !important;
+}
+
+html.light-mode .modal-backdrop input {
+  background: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light-mode .modal-backdrop input:focus {
+  border-color: #0284c7 !important;
+  background: #ffffff !important;
+}
+
+/* Mobile Bottom Navigation Dock in Light Mode */
+html.light-mode #mobile-bottom-dock {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: 0 -4px 16px -2px rgba(15, 23, 42, 0.08) !important;
+}
+
+html.light-mode #mobile-bottom-dock a,
+html.light-mode #mobile-bottom-dock button {
+  color: #475569 !important;
+}
+
+html.light-mode #mobile-bottom-dock a.text-primary,
+html.light-mode #mobile-bottom-dock button.text-primary-container,
+html.light-mode #mobile-bottom-dock a:hover,
+html.light-mode #mobile-bottom-dock button:hover {
+  color: #0284c7 !important;
+}
+
+/* ==========================================================================
+   Responsive Utilities & Fluid Mobile Tweaks
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* Prevent horizontal scroll bleed on mobile */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Compact Hero temp scaling */
+  #hero-temp {
+    font-size: clamp(3.2rem, 14vw, 4.5rem) !important;
+    line-height: 1 !important;
+  }
+
+  /* Map container height for small screens */
+  #radar-section .relative.w-full.h-96 {
+    height: 340px !important;
+  }
+
+  /* Stat cards compact typography */
+  .stat-value {
+    font-size: 1.35rem !important;
+    line-height: 1.6rem !important;
+  }
+
+  /* Safe padding for fixed bottom mobile dock */
+  .safe-area-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+}
+
+
+
